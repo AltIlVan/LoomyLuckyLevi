@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { Reward } from '../types';
 import { CATEGORIES } from '../data/rewardsData';
 import { sound } from '../services/soundService';
-import confetti from 'canvas-confetti';
-import { Sparkles, Check, Bookmark, Star } from 'lucide-react';
+import { Check, Bookmark, Star } from 'lucide-react';
 
 interface CapsuleOpeningModalProps {
   reward: Reward;
@@ -22,27 +21,17 @@ export const CapsuleOpeningModal: React.FC<CapsuleOpeningModalProps> = ({
   useEffect(() => {
     sound.playCapsulePop();
 
+    // Smooth reveal without generic AI confetti
     const timer = setTimeout(() => {
       setStage('revealed');
       sound.playFanfare(reward.rarity);
-
-      try {
-        confetti({
-          particleCount: reward.rarity === 'SPECIAL' || reward.rarity === 'LEGENDARY' ? 120 : 60,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ['#FF572E', '#315BFF', '#FFD027', '#00C974', '#FF4F87', '#8A3FFC'],
-        });
-      } catch (e) {
-        console.warn('Confetti notice:', e);
-      }
-    }, 600);
+    }, 450);
 
     return () => clearTimeout(timer);
   }, [reward]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#171717]/80 backdrop-blur-sm animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#171717]/85 backdrop-blur-xs animate-in fade-in duration-200">
       <div className="relative w-full max-w-sm flex flex-col items-center">
         
         {/* Stage 1: Capsule Splitting Animation */}
@@ -54,29 +43,28 @@ export const CapsuleOpeningModal: React.FC<CapsuleOpeningModalProps> = ({
                 className="w-24 h-12 rounded-t-full border-3 border-[#171717] animate-bounce"
                 style={{ backgroundColor: catMeta.colorHex }}
               />
-              {/* Seam crack spark */}
-              <div className="w-28 h-2 bg-white rounded-full neo-shadow-sm my-0.5 animate-ping" />
+              {/* Center crack line */}
+              <div className="w-28 h-2 bg-[#171717] rounded-full my-0.5" />
               {/* Bottom Half */}
               <div className="w-24 h-12 rounded-b-full border-3 border-[#171717] bg-white/90" />
             </div>
             <p className="font-arcade text-lg text-[#FFD027] mt-4 tracking-wider">
-              CRACKING OPEN...
+              MEMBUKA KAPSUL...
             </p>
           </div>
         )}
 
-        {/* Stage 2: Revealed Loot Card */}
+        {/* Stage 2: Revealed Physical Card */}
         {stage === 'revealed' && (
-          <div className="w-full bg-[#FAF4EB] border-3 border-[#171717] neo-shadow-lg rounded-3xl p-5 sm:p-6 flex flex-col justify-between overflow-hidden animate-in zoom-in-95 duration-400 relative">
+          <div className="w-full bg-[#FAF4EB] border-3 border-[#171717] neo-shadow-lg rounded-3xl p-5 sm:p-6 flex flex-col justify-between overflow-hidden animate-in zoom-in-95 duration-300 relative bg-dot-paper">
             
-            {/* Scrapbook washi tape on top */}
+            {/* Washi tape header label */}
             <div
               className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 border border-[#171717] -rotate-1 z-20 shadow-xs flex items-center gap-1.5"
               style={{ backgroundColor: catMeta.colorHex }}
             >
-              <Sparkles className="w-3.5 h-3.5 text-white" />
               <span className="font-mono text-[10px] font-black uppercase text-white tracking-widest">
-                NEW LOOT UNLOCKED!
+                ITEM DIPEROLEH!
               </span>
             </div>
 
@@ -96,7 +84,7 @@ export const CapsuleOpeningModal: React.FC<CapsuleOpeningModalProps> = ({
                     : reward.rarity === 'LEGENDARY'
                     ? 'bg-[#FF572E] text-white'
                     : reward.rarity === 'RARE'
-                    ? 'bg-[#8A3FFC] text-white'
+                    ? 'bg-[#8B5CF6] text-white'
                     : 'bg-[#F4EBDD] text-[#171717]'
                 }`}
               >
@@ -121,7 +109,7 @@ export const CapsuleOpeningModal: React.FC<CapsuleOpeningModalProps> = ({
               </div>
             </div>
 
-            {/* Personal Heartfelt Content */}
+            {/* Content Note */}
             <div className="my-3 p-4 rounded-xl bg-white border-2 border-[#171717] neo-shadow-sm">
               <p className="font-display text-sm sm:text-base text-[#171717] leading-relaxed font-medium">
                 {reward.content}
@@ -135,7 +123,7 @@ export const CapsuleOpeningModal: React.FC<CapsuleOpeningModalProps> = ({
               )}
             </div>
 
-            {/* Special Badge Label if present */}
+            {/* Special Badge Label */}
             {reward.badgeLabel && (
               <div className="mb-3 flex items-center justify-center gap-1.5 py-1 px-3 bg-[#FFD027]/40 border border-[#FFD027] rounded-lg">
                 <Star className="w-3.5 h-3.5 text-[#B88700] fill-current" />
@@ -149,18 +137,18 @@ export const CapsuleOpeningModal: React.FC<CapsuleOpeningModalProps> = ({
             <div className="flex flex-col gap-2 mt-2">
               <button
                 onClick={onClose}
-                className="w-full neo-btn bg-[#00C974] hover:bg-[#00b367] text-[#171717] font-arcade text-sm py-3 px-4 rounded-xl flex items-center justify-center gap-2"
+                className="w-full neo-btn bg-[#10B981] hover:bg-[#059669] text-[#171717] font-arcade text-sm py-3 px-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Check className="w-5 h-5 stroke-[3]" />
-                <span>SAVE TO LOOT BOOK</span>
+                <span>SIMPAN KE THE LOOT BOOK</span>
               </button>
 
               <button
                 onClick={onViewInBook}
-                className="w-full py-2 text-center font-mono text-xs text-[#171717]/80 hover:text-[#171717] font-bold hover:underline flex items-center justify-center gap-1"
+                className="w-full py-2 text-center font-mono text-xs text-[#171717]/80 hover:text-[#171717] font-bold hover:underline flex items-center justify-center gap-1 cursor-pointer"
               >
                 <Bookmark className="w-3.5 h-3.5" />
-                <span>View Full Collection →</span>
+                <span>Lihat Koleksi Lengkap →</span>
               </button>
             </div>
           </div>

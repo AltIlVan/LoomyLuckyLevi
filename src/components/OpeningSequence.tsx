@@ -20,12 +20,12 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onStartGame, p
     if (currentLineIndex < INTRO_LINES.length) {
       const timer = setTimeout(() => {
         setCurrentLineIndex((prev) => prev + 1);
-      }, 2600);
+      }, 2400);
       return () => clearTimeout(timer);
     } else {
       const ticketTimer = setTimeout(() => {
         setShowTicket(true);
-      }, 600);
+      }, 400);
       return () => clearTimeout(ticketTimer);
     }
   }, [currentLineIndex, showTicket]);
@@ -59,7 +59,7 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onStartGame, p
       {!showTicket && (
         <button
           onClick={handleSkip}
-          className="absolute bottom-8 right-6 z-30 px-3 py-1.5 bg-[#F4EBDD]/90 hover:bg-[#F4EBDD] text-[#171717] border-2 border-[#171717] neo-shadow-sm rounded text-xs font-mono uppercase tracking-wider font-bold transition-all"
+          className="absolute bottom-8 right-6 z-30 px-3 py-1.5 bg-[#F4EBDD]/90 hover:bg-[#F4EBDD] text-[#171717] border-2 border-[#171717] neo-shadow-sm rounded text-xs font-mono uppercase tracking-wider font-bold transition-all cursor-pointer"
         >
           Skip Intro →
         </button>
@@ -105,10 +105,14 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onStartGame, p
               className={`relative w-full transition-transform duration-700 transform-style-3d ${
                 isFlipped ? 'rotate-y-180' : ''
               }`}
-              style={{ minHeight: '430px' }}
+              style={{ minHeight: '450px' }}
             >
               {/* === TICKET FRONT === */}
-              <div className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-[#801B1B] via-[#611313] to-[#400B0B] text-[#F4EBDD] neo-border neo-shadow-lg rounded-2xl p-6 flex flex-col justify-between overflow-hidden">
+              <div
+                className={`absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-[#801B1B] via-[#611313] to-[#400B0B] text-[#F4EBDD] neo-border neo-shadow-lg rounded-2xl p-6 flex flex-col justify-between overflow-hidden transition-opacity duration-300 ${
+                  isFlipped ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+              >
                 <div className="absolute -top-3 left-6 w-16 h-6 bg-[#FFD027]/85 border border-[#171717] -rotate-6 z-20 shadow-xs" />
                 <div className="absolute -top-3 right-6 w-14 h-6 bg-[#00C974]/80 border border-[#171717] rotate-6 z-20 shadow-xs" />
 
@@ -156,9 +160,9 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onStartGame, p
                 </div>
 
                 <div className="relative z-10 pt-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-[#FFD027]">
+                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-[#FFD027] animate-pulse">
                     <RotateCw className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '4s' }} />
-                    <span>TAP TO FLIP</span>
+                    <span>TAP TO FLIP ↺</span>
                   </div>
                   <div className="px-2 py-1 bg-[#FF572E] text-[#171717] text-[10px] font-mono font-black border border-[#171717] rounded shadow-xs">
                     VERIFIED TICKET
@@ -167,15 +171,19 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onStartGame, p
               </div>
 
               {/* === TICKET BACK === */}
-              <div className="absolute inset-0 backface-hidden rotate-y-180 w-full h-full bg-[#FAF4EB] text-[#171717] neo-border neo-shadow-lg rounded-2xl p-6 flex flex-col justify-between overflow-hidden bg-dot-paper">
+              <div
+                className={`absolute inset-0 backface-hidden rotate-y-180 w-full h-full bg-[#FAF4EB] text-[#171717] neo-border neo-shadow-lg rounded-2xl p-6 flex flex-col justify-between overflow-hidden bg-dot-paper transition-opacity duration-300 ${
+                  isFlipped ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
+              >
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-[#FF4F87]/80 border border-[#171717] rotate-1 z-20 flex items-center justify-center">
                   <span className="text-[10px] font-mono font-black tracking-widest text-white uppercase">
                     NOTE FOR LEVI
                   </span>
                 </div>
 
-                <div className="relative z-10 pt-4 flex-1 flex flex-col">
-                  <div className="flex items-center justify-between border-b-2 border-[#171717] pb-1.5 mb-3">
+                <div className="relative z-10 pt-3 flex-1 flex flex-col">
+                  <div className="flex items-center justify-between border-b-2 border-[#171717] pb-1.5 mb-2">
                     <span className="font-mono text-xs font-bold text-[#FF572E] uppercase">
                       FROM: LOOMY
                     </span>
@@ -184,22 +192,22 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onStartGame, p
                     </span>
                   </div>
 
-                  <div className="flex-1 overflow-y-auto pr-1">
+                  <div className="flex-1 overflow-y-auto max-h-52 pr-1">
                     <p className="font-hand text-xl md:text-2xl text-[#171717] leading-relaxed whitespace-pre-line font-bold">
                       {personalNote}
                     </p>
                   </div>
                 </div>
 
-                <div className="relative z-10 pt-4 border-t-2 border-[#171717]" onClick={(e) => e.stopPropagation()}>
+                <div className="relative z-10 pt-3 border-t-2 border-[#171717]" onClick={(e) => e.stopPropagation()}>
                   <button
                     onClick={handlePlayClick}
-                    className="w-full neo-btn bg-[#FF572E] hover:bg-[#ff4514] text-[#171717] font-arcade text-lg tracking-wider py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-transform shadow-md"
+                    className="w-full neo-btn bg-[#FF572E] hover:bg-[#ff4514] text-[#171717] font-arcade text-lg tracking-wider py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-transform shadow-md cursor-pointer"
                   >
                     <span>LET'S PLAY!</span>
                     <ArrowRight className="w-5 h-5 text-[#171717]" />
                   </button>
-                  <p className="text-center font-mono text-[10px] text-[#171717]/70 mt-2 font-bold uppercase tracking-wider">
+                  <p className="text-center font-mono text-[10px] text-[#171717]/70 mt-1.5 font-bold uppercase tracking-wider">
                     CLICK TO ENTER ARCADE
                   </p>
                 </div>
@@ -207,9 +215,25 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onStartGame, p
             </div>
           </div>
 
-          <p className="mt-4 font-mono text-xs text-[#171717]/80 font-bold bg-[#F4EBDD]/90 px-3 py-1 rounded border border-[#171717]">
-            {isFlipped ? "Flip back or tap LET'S PLAY to begin!" : '👆 Tap the ticket to read your birthday note'}
-          </p>
+          {/* Quick direct play option & flip hint */}
+          <div className="mt-3 flex flex-col items-center gap-2">
+            <button
+              onClick={handleFlip}
+              className="font-mono text-xs text-[#171717] font-bold bg-[#FFD027] hover:bg-[#ffc70f] px-3.5 py-1.5 rounded-lg border-2 border-[#171717] neo-shadow-sm cursor-pointer flex items-center gap-1.5"
+            >
+              <RotateCw className="w-3.5 h-3.5" />
+              <span>{isFlipped ? 'Lihat Depan Tiket' : 'Balik Tiket (Baca Note)'}</span>
+            </button>
+            
+            {!isFlipped && (
+              <button
+                onClick={handlePlayClick}
+                className="font-mono text-[11px] text-[#171717]/80 hover:text-[#171717] underline font-bold cursor-pointer"
+              >
+                Langsung main tanpa balik tiket →
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>
