@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme {
+  --font-arcade: "Rubik Mono One", cursive, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-hand: "Caveat", cursive;
+
+  --color-paper: #F4EBDD;
+  --color-ink: #171717;
+  --color-arcade-orange: #FF572E;
+  --color-electric-blue: #315BFF;
+  
+  --color-capsule-blue: #315BFF;
+  --color-capsule-yellow: #FFD027;
+  --color-capsule-pink: #FF4F87;
+  --color-capsule-green: #00C974;
+  --color-capsule-purple: #8A3FFC;
+  --color-capsule-gold: #FFB800;
+}
+
+:root {
+  --paper: #F4EBDD;
+  --ink: #171717;
+  --arcade-orange: #FF572E;
+  --electric-blue: #315BFF;
+}
+
+body {
+  font-family: var(--font-display);
+  background-color: var(--paper);
+  color: var(--ink);
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Brutalist Neo-Arcade shadows and borders */
+.neo-border {
+  border: 3px solid #171717;
+}
+
+.neo-border-sm {
+  border: 2px solid #171717;
+}
+
+.neo-shadow {
+  box-shadow: 4px 4px 0 #171717;
+}
+
+.neo-shadow-sm {
+  box-shadow: 2.5px 2.5px 0 #171717;
+}
+
+.neo-shadow-lg {
+  box-shadow: 6px 6px 0 #171717;
+}
+
+.neo-shadow-colored-orange {
+  box-shadow: 4px 4px 0 #FF572E;
+}
+
+.neo-shadow-colored-blue {
+  box-shadow: 4px 4px 0 #315BFF;
+}
+
+.neo-btn {
+  border: 3px solid #171717;
+  box-shadow: 4px 4px 0 #171717;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.neo-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #171717;
+}
+
+/* Halftone and grid backgrounds */
+.bg-halftone {
+  background-image: radial-gradient(#171717 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.bg-dot-paper {
+  background-color: #F4EBDD;
+  background-image: radial-gradient(rgba(23, 23, 23, 0.12) 1.5px, transparent 1.5px);
+  background-size: 14px 14px;
+}
+
+/* Opening Screen shifting gradient */
+@keyframes shiftGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-shifting-gradient {
+  background: linear-gradient(135deg, #FFAB91, #FF8A65, #CE93D8, #90CAF9, #FFD54F, #FFAB91);
+  background-size: 400% 400%;
+  animation: shiftGradient 14s ease infinite;
+}
+
+/* 3D Ticket Flip */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F4EBDD;
+  border-left: 2px solid #171717;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FF572E;
+  border: 2px solid #171717;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E03E15;
+}
